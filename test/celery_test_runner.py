@@ -1,18 +1,18 @@
 import sys
 import signal
 from abc import ABCMeta, abstractmethod
-from typing import Tuple, List
+from typing import List
 
 import sh
 
-from celery_test import celery_test_app_name # too explicit
+from test.celery_test import celery_test_app_name # too explicit
 
 
 class CeleryServiceForTest(metaclass=ABCMeta):
     def __init__(self):
         self._service_command = sh.Command('celery')
         self._running_celery_process = None
-        self._celery_test_app_name = celery_test_app_name # по хорошему в момент инициализации
+        self._celery_test_app_name = f'test.{celery_test_app_name}' # по хорошему в момент инициализации
 
     def down(self):
         self._running_celery_process.signal(signal.SIGINT)
@@ -49,11 +49,7 @@ class CeleryWorker(CeleryServiceForTest):
         return ['-A', self._celery_test_app_name, 'worker', '-l', 'INFO']
 
 
-# напиши простой тест
-a = CeleryWorker()
-a.run()
-print('Now sleep')
-import time
-time.sleep(15)
-print('wake up')
-a.down()
+# import pkgutil
+# search_path = ['.'] # set to None to see all modules importable from sys.path
+# all_modules = [x[1] for x in pkgutil.iter_modules(path=search_path)]
+# print(all_modules)

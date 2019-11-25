@@ -13,7 +13,7 @@ def sup():
 
 app.conf.beat_schedule = {
     "see-you-in-ten-seconds-task": {
-        "task": f"{celery_test_app_name}.sup",
+        "task": f"test.{celery_test_app_name}.sup",
         "schedule": 10.0,
     }
 }
