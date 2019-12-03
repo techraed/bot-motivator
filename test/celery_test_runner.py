@@ -5,14 +5,14 @@ from typing import List
 
 import sh
 
-from test.celery_test import celery_test_app_name # too explicit
+from test.celery_test import celery_test_app_name # too explicit. why? look at the comment below
 
 
 class CeleryServiceForTest(metaclass=ABCMeta):
     def __init__(self):
         self._service_command = sh.Command('celery')
         self._running_celery_process = None
-        self._celery_test_app_name = f'test.{celery_test_app_name}' # по хорошему в момент инициализации
+        self._celery_test_app_name = f'test.{celery_test_app_name}' # actually, it should be initialised from func param
 
     def down(self):
         self._running_celery_process.signal(signal.SIGINT)
@@ -35,7 +35,6 @@ class CeleryBeat(CeleryServiceForTest):
     def __init__(self):
         super().__init__()
 
-    # может измениться, сделать более общим
     def _get_service_args(self) -> List[str]:
         return ['-A', self._celery_test_app_name, 'beat', '-l', 'INFO']
 
@@ -44,12 +43,34 @@ class CeleryWorker(CeleryServiceForTest):
     def __init__(self):
         super().__init__()
 
-    # может измениться, сделать более общим
     def _get_service_args(self) -> List[str]:
         return ['-A', self._celery_test_app_name, 'worker', '-l', 'INFO']
 
 
-# import pkgutil
-# search_path = ['.'] # set to None to see all modules importable from sys.path
-# all_modules = [x[1] for x in pkgutil.iter_modules(path=search_path)]
-# print(all_modules)
+class CeleryFacadeTester:
+    """
+    Celery task dumps data to disk (writes integer to file).
+    Workers should write to file until integer in the file reaches `max_test_value`
+    """
+    def __init__(self):
+        self.worker = CeleryWorker()
+        self.beat = CeleryBeat()
+
+    def __enter__(self):
+        self._prepare_test_file()
+        self._run_services()
+        return self
+
+    @staticmethod
+    def _prepare_test_file():
+        with open('newfile.txt', 'w') as f:
+            f.write('0')
+
+    def _run_services(self):
+        self.worker.run()
+        self.beat.run()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.beat.down()
+        self.worker.down()
+
