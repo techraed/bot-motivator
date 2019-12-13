@@ -1,9 +1,9 @@
 import time
 
-from test.celery_test_runner import CeleryFacadeTester
+from app.telegram_bot import MotivatorBot
 
 
-with CeleryFacadeTester():
-    print('SLEEP')
-    time.sleep(30)
-    print('WAKE UP TO KILL CELERY')
+if __name__ == "__main__":
+    bot = MotivatorBot()
+    bot.setup()
+    bot.run()

@@ -24,7 +24,13 @@ def sup():
 
 app.conf.beat_schedule = {
     "see-you-in-ten-seconds-task": {
-        "task": f"test.{celery_test_app_name}.sup",
+        "task": f"tests.{celery_test_app_name}.sup",
         "schedule": 5.0,
     }
 }
+
+# test script
+# with CeleryFacadeTester():
+#     print('SLEEP')
+#     time.sleep(30)
+#     print('WAKE UP TO KILL CELERY')
