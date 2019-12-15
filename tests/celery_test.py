@@ -1,25 +1,21 @@
+import os
 from pathlib import Path
 
 from celery import Celery
 
+from app.motivator.motivator_bot.telegram_bot import motivator
+
 
 celery_test_app_name = Path(__file__).stem
 app = Celery(celery_test_app_name, broker='pyamqp://guest@localhost//')
+
 
 @app.task
 def sup():
     """
     very bad code only for tests
     """
-    with open('newfile.txt', 'r') as f:
-        value = f.read()
-
-    if int(value) != 3:
-        print('i will increase the value', value)
-        with open('newfile.txt', 'w') as f:
-            f.write(str(int(value)+1))
-    else:
-        return 'LOL!'
+    return motivator.bot.send_message(chat_id=os.environ.get('SAB_ID'), text="HEY")
 
 
 app.conf.beat_schedule = {

@@ -1,16 +1,14 @@
 import os
 import logging
 
+from telegram import Bot
 from telegram.ext import Updater, CommandHandler
+
+from app.motivator.motivator_bot.telegram_bot_handlers import start
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-
-
-def start(update, context):
-    # todo move
-    update.message.reply_text(text='SUP!')
 
 
 class MotivatorBot:
@@ -29,3 +27,10 @@ class MotivatorBot:
     def run(self):
         self.updater.start_polling()
         self.updater.idle()
+
+    @property
+    def bot(self):
+        return Bot(token=self.token)
+
+
+motivator = MotivatorBot()

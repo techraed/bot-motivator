@@ -1,9 +1,6 @@
-import time
-
-from app.telegram_bot import MotivatorBot
+from app.motivator.motivator_bot.telegram_bot import motivator
 
 
 if __name__ == "__main__":
-    bot = MotivatorBot()
-    bot.setup()
-    bot.run()
+    motivator.setup()
+    motivator.run()
