@@ -1,3 +1,6 @@
 def start(update, context):
-    # todo move
-    update.message.reply_text(text='SUP!')
+    user_id = update.message.chat.id
+    """
+    user_bot_instance = 1User(user_id)
+    user_bot_instance.greet() -> да/нет
+    """
