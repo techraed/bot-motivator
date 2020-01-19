@@ -1,3 +1,4 @@
+import os
 import pickle
 from readerwriterlock import rwlock
 
@@ -9,7 +10,7 @@ class ApplicationDataOperator:
     tests https://github.com/elarivie/pyReaderWriterLock/blob/master/tests/rwlock_test.py
     """
     def __init__(self, file_name: str):
-        self._file: str = file_name
+        self._file: str = os.path.join(os.path.dirname(__file__), file_name)
         self._synch_primitive = rwlock.RWLockRead()
 
     def safe_data_save(self, data):

@@ -12,7 +12,7 @@ class UserController:
     @classmethod
     def get_user(cls, user_id: int) -> Union[NewBotUser, KnownBotUser]:
         user_data: dict = cls._user_data_manager.get_user_data(user_id)
-        if user_data is {}:
+        if user_data == {}:
             return cls._user_constructor.construct_user(
                 user_type='new',
                 user_data={'user_id': user_id}
