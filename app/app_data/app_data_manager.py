@@ -2,12 +2,14 @@ import pickle
 from readerwriterlock import rwlock
 
 
-# todo типы, read priority problem
-
-
-class MotivatorDB:
-    def __init__(self):
-        self._file = 'motivator_data'
+# todo read priority problem
+class ApplicationDataOperator:
+    """
+    Performs main app_data operations: load, safe. Concurrently safe.
+    tests https://github.com/elarivie/pyReaderWriterLock/blob/master/tests/rwlock_test.py
+    """
+    def __init__(self, file_name: str):
+        self._file: str = file_name
         self._synch_primitive = rwlock.RWLockRead()
 
     def safe_data_save(self, data):
@@ -19,16 +21,27 @@ class MotivatorDB:
             pickle.dump(data, f)
 
     def safe_data_load(self):
-        # todo return type?!
         with self._synch_primitive.gen_rlock():
             data = self._data_load()
         return data
 
     def _data_load(self):
-        # todo return type?!
         with open(self._file, 'rb') as f:
             pickled_data = pickle.load(f)
         return pickled_data
 
 
-motivator_persistence = MotivatorDB()
+class AppDataManager(ApplicationDataOperator):
+    """
+    Base data manager
+    """
+    def __init__(self):
+        super().__init__('app_db')
+
+
+class TestDataManager(ApplicationDataOperator):
+    """
+    Data manger for tests
+    """
+    def __init__(self):
+        super().__init__('test_db')
