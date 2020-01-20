@@ -29,7 +29,7 @@ class NewBotUser(BaseBotUser):
     def get_greet_message(self) -> str:
         return self._greeting_message
 
-    def has_habits(self):
+    def has_habits(self) -> bool:
         return False
 
 

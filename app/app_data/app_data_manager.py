@@ -14,7 +14,7 @@ class ApplicationDataOperator:
         self._file: str = os.path.join(os.path.dirname(__file__), file_name)
         self._synch_primitive = rwlock.RWLockRead()
 
-    def safe_data_update(self, data):
+    def safe_data_update(self, data: dict):
         with self._synch_primitive.gen_wlock():
             updated_data = self._get_updated_data(data)
             self._save_data(updated_data)
@@ -30,12 +30,12 @@ class ApplicationDataOperator:
 
     def safe_data_load(self) -> dict:
         with self._synch_primitive.gen_rlock():
-            data = self._data_load()
+            data: dict = self._data_load()
         return data
 
     def _data_load(self) -> dict:
         with open(self._file, 'rb') as f:
-            pickled_data = pickle.load(f)
+            pickled_data: dict = pickle.load(f)
         return pickled_data
 
 
@@ -53,3 +53,9 @@ class TestDataManager(ApplicationDataOperator):
     """
     def __init__(self):
         super().__init__('test_db')
+
+
+if __name__ == '__main__':
+    # todo temporary
+    with open(os.path.join(os.path.dirname(__file__), 'app_db'), 'wb') as f:
+        pickle.dump({}, f)

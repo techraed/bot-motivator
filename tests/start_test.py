@@ -24,11 +24,11 @@ class StartHandlerTest(unittest.TestCase):
 
     def test_user_types(self):
         new_user = TestUserController.get_user(self.user_id)
-        self.assertEqual(type(new_user), NewBotUser)
+        self.assertEqual(isinstance(new_user, NewBotUser), True)
 
         TestUserController.save_user(new_user)
         known_user = TestUserController.get_user(self.user_id)
-        self.assertEqual(type(known_user), KnownBotUser)
+        self.assertEqual(isinstance(known_user, KnownBotUser), True)
 
     def tearDown(self):
         delete_test_db_file()
