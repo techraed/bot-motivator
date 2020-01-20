@@ -12,3 +12,7 @@ def greet(update: Update, user: Union[NewBotUser, KnownBotUser]):
         text=user.get_greet_message(),
         reply_markup=reply_keyboard
     )
+
+# todo возможно, лучще сделать классы презентаров. метод greet вызывает can_start. далее, исходя из bool ретерна
+# возвращает ответ (также добавляется ветка проверки того, какого типа этот юзер)
+# ответы помести в telegram_conversation_constantsи удали соотв user_conv_constants

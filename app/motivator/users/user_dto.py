@@ -12,7 +12,6 @@ class UserDTO:
         self.user_id = user_id
         self.habits: List[Habit] = [] if habits is None else habits
         """
-        self._habbits: Dict[Habbit, int] -> срок для каждой привычки
         self._results: Dict[Habbit, int] -> рекорд, сколько продержался
         self._sex: str
         self._age

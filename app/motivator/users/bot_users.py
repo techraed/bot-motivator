@@ -42,3 +42,7 @@ class KnownBotUser(BaseBotUser):
 
     def has_habits(self) -> bool:
         return len(self.user_data.habits) > 0
+
+# todo Создай метод can_start() -> подумай, нужен ли после этого has habits. Метод используй в greet
+# юзер может начать, если список его привычек не больше определенного максимума
+# убери _greeting_message
