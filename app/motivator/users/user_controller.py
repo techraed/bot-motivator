@@ -24,4 +24,4 @@ class UserController:
 
     @classmethod
     def save_user(cls, user: Union[NewBotUser, KnownBotUser]):
-        cls._user_data_manager.save_user_data(user.user_data.__dict__)
+        cls._user_data_manager.save_user_data(user)

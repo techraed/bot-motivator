@@ -4,6 +4,7 @@ from readerwriterlock import rwlock
 
 
 # todo read priority problem
+# todo data schema and it's validation when saving/reading, current data schema is Dict[id, {BOTUSERDTO}]
 class ApplicationDataOperator:
     """
     Performs main app_data operations: load, safe. Concurrently safe.
@@ -13,20 +14,26 @@ class ApplicationDataOperator:
         self._file: str = os.path.join(os.path.dirname(__file__), file_name)
         self._synch_primitive = rwlock.RWLockRead()
 
-    def safe_data_save(self, data):
+    def safe_data_update(self, data):
         with self._synch_primitive.gen_wlock():
-            self._save_data(data)
+            updated_data = self._get_updated_data(data)
+            self._save_data(updated_data)
+
+    def _get_updated_data(self, update: dict) -> dict:
+        current_data: dict = self._data_load()
+        current_data.update(update)
+        return current_data
 
     def _save_data(self, data):
         with open(self._file, 'wb') as f:
             pickle.dump(data, f)
 
-    def safe_data_load(self):
+    def safe_data_load(self) -> dict:
         with self._synch_primitive.gen_rlock():
             data = self._data_load()
         return data
 
-    def _data_load(self):
+    def _data_load(self) -> dict:
         with open(self._file, 'rb') as f:
             pickled_data = pickle.load(f)
         return pickled_data

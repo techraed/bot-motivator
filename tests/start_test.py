@@ -1,27 +1,38 @@
-from app.motivator.motivator_bot.telegram_bot_handlers import start
+import unittest
+
+from app.app_data.user_data_manager import UserDataManager
+from app.app_data.app_data_manager import TestDataManager
+from app.motivator.users.user_controller import UserController
+from app.motivator.users.bot_users import NewBotUser, KnownBotUser
+from tests.test_utils.start_test_utils import create_test_db_file, delete_test_db_file
 
 
-class Chat:
-    def __init__(self, id):
-        self.id = id
+class TestUserDataManager(UserDataManager):
+    def __init__(self):
+        self._db_manager = TestDataManager()
 
 
-class MessageTestObject:
-    def __init__(self, chat_id):
-        self.chat = Chat(chat_id)
+class TestUserController(UserController):
+    _user_data_manager = TestUserDataManager()
 
 
-class UpdateTestObject:
-    def __init__(self, chat_id):
-        self.message = MessageTestObject(chat_id)
+class StartHandlerTest(unittest.TestCase):
+    # todo test are very dirty
+    def setUp(self):
+        self.user_id = 123
+        create_test_db_file()
+
+    def test_user_types(self):
+        new_user = TestUserController.get_user(self.user_id)
+        self.assertEqual(type(new_user), NewBotUser)
+
+        TestUserController.save_user(new_user)
+        known_user = TestUserController.get_user(self.user_id)
+        self.assertEqual(type(known_user), KnownBotUser)
+
+    def tearDown(self):
+        delete_test_db_file()
 
 
 if __name__ == '__main__':
-    update = UpdateTestObject(456)
-    context = None
-    b = start(update, context)
-    print(b.greet())
-    update = UpdateTestObject(123)
-    context = None
-    c = start(update, context)
-    print(c.greet())
+    unittest.main()

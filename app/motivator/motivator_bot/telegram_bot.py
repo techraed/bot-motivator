@@ -1,10 +1,10 @@
-import os
 import logging
 
 from telegram import Bot
 from telegram.ext import Updater, CommandHandler
 
 from app.motivator.motivator_bot.telegram_bot_handlers import start
+from app.settings import AppSettings
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
@@ -15,7 +15,7 @@ class MotivatorBot:
     # todo assertions, better config handling
     # why use_context?
     def __init__(self):
-        self.token = os.environ.get('BOT_TOKEN')
+        self.token = AppSettings.TOKEN
         self.updater = Updater(token=self.token, use_context=True)
         self.dispatcher = self.updater.dispatcher
 

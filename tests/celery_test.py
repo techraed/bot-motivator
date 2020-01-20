@@ -1,10 +1,8 @@
 import os
-import sys
 from pathlib import Path
 
 from celery import Celery
 
-sys.path.append('/media/sabaun/4C71BE7650587C7D/documents/bot-motivator/app')
 from app.motivator.motivator_bot.telegram_bot import motivator
 
 
