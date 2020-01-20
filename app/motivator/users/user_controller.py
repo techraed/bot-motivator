@@ -15,7 +15,7 @@ class UserController:
         if user_data == {}:
             return cls._user_constructor.construct_user(
                 user_type='new',
-                user_data={'user_id': user_id}
+                user_data={'user_id': user_id, 'habits': None}
             )
         return cls._user_constructor.construct_user(
             user_type='known',
