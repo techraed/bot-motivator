@@ -1,48 +1,34 @@
-from typing import Dict
 from abc import ABCMeta, abstractmethod
 
 from app.motivator.users.user_dto import UserDTO
-from app.motivator.users.user_conversation_constants import NEW_USER_GREETING, KNOWN_USER_GREETING
+from app.motivator.habits.habits_constants import MAX_HABITS
 
 
 class BaseBotUser(metaclass=ABCMeta):
-    def __init__(self, user_id, habits, greeting_message: str):
+    def __init__(self, user_id, habits):
         self.user_data: UserDTO = UserDTO(user_id, habits)
-        self._greeting_message: str = greeting_message
+        self._max_habits = MAX_HABITS
 
     @abstractmethod
-    def get_greet_message(self) -> str:
+    def can_start(self) -> bool:
         raise NotImplementedError
 
-    @abstractmethod
-    def has_habits(self) -> bool:
-        raise NotImplementedError
-
-    def has_not_habits(self) -> bool:
-        return not self.has_habits()
+    def can_not_start(self) -> bool:
+        # todo do we really need it?
+        return not self.can_start()
 
 
 class NewBotUser(BaseBotUser):
     def __init__(self, user_id, habits):
-        super().__init__(user_id, habits, NEW_USER_GREETING)
+        super().__init__(user_id, habits)
 
-    def get_greet_message(self) -> str:
-        return self._greeting_message
-
-    def has_habits(self) -> bool:
-        return False
+    def can_start(self) -> bool:
+        return True
 
 
 class KnownBotUser(BaseBotUser):
     def __init__(self, user_id, habits):
-        super().__init__(user_id, habits, KNOWN_USER_GREETING)
+        super().__init__(user_id, habits)
 
-    def get_greet_message(self) -> str:
-        return self._greeting_message
-
-    def has_habits(self) -> bool:
-        return len(self.user_data.habits) > 0
-
-# todo Создай метод can_start() -> подумай, нужен ли после этого has habits. Метод используй в greet
-# юзер может начать, если список его привычек не больше определенного максимума
-# убери _greeting_message
+    def can_start(self) -> bool:
+        return self.user_data.habits_amount < self._max_habits

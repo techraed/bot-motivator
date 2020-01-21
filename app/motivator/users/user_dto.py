@@ -19,3 +19,7 @@ class UserDTO:
 
     def get_data_for_save(self) -> Dict[int, dict]:
         return {self.user_id: self.__dict__}
+
+    @property
+    def habits_amount(self) -> int:
+        return len(self.habits)
