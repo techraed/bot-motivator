@@ -7,7 +7,7 @@ verify_ssl = true
 
 [packages]
 celery = "*"
-python-telegram-bot = "*"
+python-telegram-bot = "==12.2.0"
 sh = "*"
 readerwriterlock = "*"
 

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "260bae2eb8fdc39ecc067bae51a1c7141dcc4e33a2a3876bd7cfb1e24d33b9d1"
+            "sha256": "1dd281f318b70845705251770f738b16b028278463b1a61f4367d239f147e107"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -145,11 +145,11 @@
         },
         "python-telegram-bot": {
             "hashes": [
-                "sha256:41608512a3025a04ff7472efcaae344ad7533a77ae207685bb10fc2fc8282f7b",
-                "sha256:5e2156f829402e41bb5ea7196e450bf7f121c5689c5100ae180507d72f3777f5"
+                "sha256:346d42771c2b23384c59f5f41e05bd7e801a0ce118d8dcb95209bb73d5f694c5",
+                "sha256:3beee89cba3bc3217566c96199f04776dd25f541ac8992da27fd247b2d208a14"
             ],
             "index": "pypi",
-            "version": "==12.3.0"
+            "version": "==12.2.0"
         },
         "pytz": {
             "hashes": [
@@ -160,11 +160,11 @@
         },
         "readerwriterlock": {
             "hashes": [
-                "sha256:c4a97d372daa5bcd7749460603cc097f4126b1ff17f71ef99c89cdba1d06d366",
-                "sha256:cea9a433924cbf50f56bd3487c46ee09251f69ebf44217d5c331c16577b15a9d"
+                "sha256:3d99b15325874662feae3e8172920f3a951686bdf3a68f074cf4d934d4c7ff5b",
+                "sha256:9c9312a0b4cb2dbd6dfddc983b201a8847c194e112364237899414e83ea3c12e"
             ],
             "index": "pypi",
-            "version": "==1.0.4"
+            "version": "==1.0.6"
         },
         "sh": {
             "hashes": [
@@ -176,10 +176,10 @@
         },
         "six": {
             "hashes": [
-                "sha256:1f1b7d42e254082a9db6279deae68afb421ceba6158efa6131de7b3003ee93fd",
-                "sha256:30f610279e8b2578cab6db20741130331735c781b56053c59c4076da27f06b66"
+                "sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a",
+                "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"
             ],
-            "version": "==1.13.0"
+            "version": "==1.14.0"
         },
         "tornado": {
             "hashes": [
@@ -193,6 +193,14 @@
             ],
             "version": "==6.0.3"
         },
+        "typing-extensions": {
+            "hashes": [
+                "sha256:091ecc894d5e908ac75209f10d5b4f118fbdb2eb1ede6a63544054bb1edb41f2",
+                "sha256:910f4656f54de5993ad9304959ce9bb903f90aadc7c67a0bef07e678014e892d",
+                "sha256:cf8b63fedea4d89bab840ecbb93e75578af28f76f66c35889bd7065f5af88575"
+            ],
+            "version": "==3.7.4.1"
+        },
         "vine": {
             "hashes": [
                 "sha256:133ee6d7a9016f177ddeaf191c1f58421a1dcc6ee9a42c58b34bed40e1d2cd87",
@@ -202,10 +210,10 @@
         },
         "zipp": {
             "hashes": [
-                "sha256:3718b1cbcd963c7d4c5511a8240812904164b7f381b647143a89d3b98f9bcd8e",
-                "sha256:f06903e9f1f43b12d371004b4ac7b06ab39a44adc747266928ae6debfa7b3335"
+                "sha256:57147f6b0403b59f33fd357f169f860e031303415aeb7d04ede4839d23905ab8",
+                "sha256:7ae5ccaca427bafa9760ac3cd8f8c244bfc259794b5b6bb9db4dda2241575d09"
             ],
-            "version": "==0.6.0"
+            "version": "==2.0.0"
         }
     },
     "develop": {}

@@ -1,6 +1,6 @@
 from typing import Union
 
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 
 from app.motivator.users.bot_users import NewBotUser, KnownBotUser
 from app.motivator.motivator_bot import telegram_conversation_constants
@@ -27,3 +27,12 @@ def _get_typed_user_greet_message(user: Union[NewBotUser, KnownBotUser]) -> str:
     if isinstance(user, NewBotUser):
         return telegram_conversation_constants.NEW_USER_GREETING
     return telegram_conversation_constants.KNOWN_USER_GREETING
+
+
+def say_goodbye(update: Update):
+    reply_keyboard = ReplyKeyboardRemove()
+    reply_text = telegram_conversation_constants.SAY_GOODBYE
+    update.message.reply_text(
+        text=reply_text,
+        reply_markup=reply_keyboard
+    )
