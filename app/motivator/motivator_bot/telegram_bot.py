@@ -1,11 +1,10 @@
 import logging
 
 from telegram import Bot
-from telegram.ext import Filters, Updater, CommandHandler, ConversationHandler, MessageHandler
+from telegram.ext import  Updater, ConversationHandler
 
 from app.settings import AppSettings
-from app.motivator.motivator_bot.telegram_bot_handlers import start, choice, cancel
-from app.motivator.motivator_bot.telegram_conversation_constants import CHOICE
+from app.motivator.motivator_bot.telegram_bot_handlers import conversation_handler_kwargs
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
@@ -15,22 +14,14 @@ logger = logging.getLogger(__name__)
 class MotivatorBot:
     # todo assertions, better config handling
     # todo logging
-    # todo make an util function to converts constant replies into format, suitable to Filters.regex. Look at presenters
     def __init__(self):
         self.token = AppSettings.TOKEN
         self.updater = Updater(token=self.token, use_context=True)
         self.dispatcher = self.updater.dispatcher
 
     def setup(self):
-        conversation_handler = ConversationHandler(
-            entry_points=[CommandHandler('start', start)],
-            states={
-                CHOICE: [MessageHandler(Filters.regex('^(Да|Нет)$'), choice)]
-            },
-            fallbacks=[CommandHandler('cancel', cancel)]
-        )
-
-        self.dispatcher.add_handler(conversation_handler)
+        c_h_inst = ConversationHandler(**conversation_handler_kwargs)
+        self.dispatcher.add_handler(c_h_inst)
 
     def run(self):
         self.updater.start_polling()

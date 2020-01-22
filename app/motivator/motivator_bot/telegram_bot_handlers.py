@@ -1,32 +1,31 @@
-import logging
-from telegram import Update
-from telegram.ext import CallbackContext, ConversationHandler
+from telegram.ext import Filters, CommandHandler, MessageHandler, Handler
 
-from app.motivator.users.user_controller import UserController
-from app.motivator.motivator_bot.telegram_bot_presenters import greet, say_goodbye
-from app.motivator.motivator_bot.telegram_conversation_constants import CHOICE
-
-
-# todo user_id copy-pasted stuff
-def start(update: Update, context: CallbackContext):
-    """
-    Greets user and asks whether he is ready to add habits, if user
-    has adding ability.
-    """
-    user_id = update.message.chat.id
-    bot_user = UserController.get_user(user_id)
-    greet(update, bot_user)
-
-    return CHOICE
+from app.motivator.motivator_bot.telegram_bot_callbacks import start, react_start_choice, react_habit_choice, cancel
+from app.motivator.motivator_bot.constants import (
+    REACT_START_CHOICE, REACT_HABIT_CHOICE, READY_TO_START_ANSWERS, HABITS_CHOICE_ANSWERS
+)
+from app.motivator.motivator_bot.utils import convert_answer_reply_to_regex
 
 
-def choice(update: Update, context: CallbackContext):
-    user_id = update.message.chat.id
+entry_point_start: Handler = CommandHandler('start', start, )
+start_processor: Handler = MessageHandler(
+    Filters.regex(convert_answer_reply_to_regex(READY_TO_START_ANSWERS)),
+    react_start_choice
+)
+habit_choice_processor: Handler = MessageHandler(
+    Filters.regex(convert_answer_reply_to_regex(HABITS_CHOICE_ANSWERS)),
+    react_habit_choice
+)
+fallback_cancel: Handler = CommandHandler('cancel', cancel)
 
 
-def cancel(update: Update, context: CallbackContext):
-    user_id = update.message.chat.id
-    logging.info(f"User with chat id {user_id} canceled the conversation.")
-    say_goodbye(update)
-
-    return ConversationHandler.END
+conversation_handler_kwargs = {
+    'entry_points': [
+        entry_point_start
+    ],
+    'states': {
+        REACT_START_CHOICE: [start_processor],
+        REACT_HABIT_CHOICE: [habit_choice_processor]
+    },
+    'fallbacks': [fallback_cancel]
+}
