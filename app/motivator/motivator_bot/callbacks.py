@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import CallbackContext, ConversationHandler
 
 from app.motivator.users.user_controller import UserController
-from app.motivator.motivator_bot.telegram_bot_presenters import greet, show_habits, say_goodbye
+from app.motivator.motivator_bot.presenters import greet, show_habits, say_goodbye
 from app.motivator.motivator_bot.constants import REACT_START_CHOICE, REACT_HABIT_CHOICE
 from app.motivator.motivator_bot.utils import is_not_affirmative_choice
 

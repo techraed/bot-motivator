@@ -4,7 +4,7 @@ from telegram import Bot
 from telegram.ext import  Updater, ConversationHandler
 
 from app.settings import AppSettings
-from app.motivator.motivator_bot.telegram_bot_handlers import conversation_handler_kwargs
+from app.motivator.motivator_bot.handlers import conversation_handler_kwargs
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)

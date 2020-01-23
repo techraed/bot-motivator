@@ -1,6 +1,6 @@
 from telegram.ext import Filters, CommandHandler, MessageHandler, Handler
 
-from app.motivator.motivator_bot.telegram_bot_callbacks import start, react_start_choice, react_habit_choice, cancel
+from app.motivator.motivator_bot.callbacks import start, react_start_choice, react_habit_choice, cancel
 from app.motivator.motivator_bot.constants import (
     REACT_START_CHOICE, REACT_HABIT_CHOICE, READY_TO_START_ANSWERS, HABITS_CHOICE_ANSWERS
 )
