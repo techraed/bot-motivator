@@ -6,22 +6,23 @@ from telegram.ext import CallbackContext, ConversationHandler
 from app.motivator.users.user_controller import UserController
 from app.motivator.users.bot_users import NewBotUser, KnownBotUser
 from app.motivator.habits.base import Habit
-from app.motivator.motivator_bot.presenters import TelegramPresenter, StartPresenter, show_habits, cancellation_goodbye, confirm_choice
+from app.motivator.motivator_bot.handlers_logic.presenters import StartPresenter, show_habits, cancellation_goodbye, confirm_choice
 from app.motivator.motivator_bot.constants import REACT_HABIT_CHOICE
+from app.motivator.motivator_bot.handlers_logic.update_data_controllers import StartUpdateDataHandler
 from app.motivator.motivator_bot.utils import is_not_affirmative_choice
 
 
-# todo is it clean to throw in presenters an Update instance?
-# todo are context.user_data operations clean? May be Presenter classes can solve the problem (handle_update_data)
+# todo имплицитное определение context.user_data
 def start(update: Update, context: CallbackContext) -> int:
     """
     Greets user and asks whether he is ready to add habits, if user
     has adding ability.
     """
+    StartUpdateDataHandler(update, context).handle_data()
 
-    start_presenter: TelegramPresenter = StartPresenter(update, context)
-    start_presenter.run_presenter()
-    return start_presenter.get_next_state()
+    start_presenter = StartPresenter(update, context)
+    start_presenter.present_response()
+    return start_presenter.next_state
 
 
 def react_start_choice(update: Update, context: CallbackContext) -> int:
