@@ -20,4 +20,6 @@ CHOOSE_HABITS = "Отлично! Выбирай привычку."
 
 HABITS_CHOICE_ANSWERS = APP_HABITS
 
+CONFIRM_CHOICE = "Принял. Удачи в этом деле!"
+
 SAY_GOODBYE = "Рад был, что зашел :)"
