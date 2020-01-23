@@ -13,4 +13,4 @@ class UserDataManager:
         return user_data.get(user_id, {})
 
     def save_user_data(self, user: Union[NewBotUser, KnownBotUser]):
-        self._db_manager.safe_data_update(user.user_data.get_data_for_save())
+        self._db_manager.safe_data_update(user.data_for_save)
