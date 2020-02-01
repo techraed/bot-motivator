@@ -5,7 +5,7 @@ from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import CallbackContext, ConversationHandler
 
 from app.motivator.users.bot_users import NewBotUser, KnownBotUser
-from app.motivator.motivator_bot import constants
+from app.motivator import constants
 
 
 class TelegramPresenter(metaclass=ABCMeta):
@@ -36,7 +36,7 @@ class StartPresenter(TelegramPresenter):
     def __init__(self, update: Update, context: CallbackContext):
         super().__init__(update, context)
         self._user_answer_choices: List[List[str]] = [constants.READY_TO_START_ANSWERS]
-        self._bot_user: Union[NewBotUser, KnownBotUser] = self._context.user_data['bot_user_class']
+        self._bot_user: Union[NewBotUser, KnownBotUser] = self._context.user_data['bot_user_instance']
 
     @property
     def text(self) -> str:
@@ -65,29 +65,65 @@ class StartPresenter(TelegramPresenter):
         return ConversationHandler.END
 
 
-def cancellation_goodbye(update: Update):
-    reply_keyboard = ReplyKeyboardRemove()
-    reply_text: str = constants.SAY_GOODBYE
-    update.message.reply_text(
-        text=reply_text,
-        reply_markup=reply_keyboard
-    )
+class ShowHabitsPresenter(TelegramPresenter):
+    def __init__(self, update: Update, context: CallbackContext):
+        super().__init__(update, context)
+        self._user_start_response: str = self._context.user_data['user_start_response']
+        self._bot_user: Union[NewBotUser, KnownBotUser] = self._context.user_data['bot_user_instance']
+
+    @property
+    def text(self) -> str:
+        if self._is_not_affirmative_choice():
+            return constants.SAY_GOODBYE
+        return constants.CHOOSE_HABITS
+
+    @property
+    def reply_keyboard(self) -> Union[ReplyKeyboardRemove, ReplyKeyboardMarkup]:
+        if self._is_not_affirmative_choice():
+            return ReplyKeyboardRemove()
+
+        available_habits: List[List[str]] = [self._bot_user.get_available_habits()]
+        return ReplyKeyboardMarkup(available_habits, one_time_keyboard=True)
+
+    def _is_not_affirmative_choice(self):
+        return self._user_start_response == constants.NO
+
+    @property
+    def next_state(self) -> int:
+        if self._is_not_affirmative_choice():
+            return ConversationHandler.END
+        return constants.REACT_HABIT_CHOICE
 
 
-def show_habits(update: Update):
-    habits: List[List[str]] = [constants.HABITS_CHOICE_ANSWERS]
-    reply_keyboard = ReplyKeyboardMarkup(habits, one_time_keyboard=True)
-    reply_text: str = constants.CHOOSE_HABITS
-    update.message.reply_text(
-        text=reply_text,
-        reply_markup=reply_keyboard
-    )
+class ChoiceConfirmPresenter(TelegramPresenter):
+    def __init__(self, update: Update):
+        super().__init__(update)
+
+    @property
+    def text(self) -> str:
+        return constants.CONFIRM_CHOICE
+
+    @property
+    def reply_keyboard(self) -> Union[ReplyKeyboardRemove, ReplyKeyboardMarkup]:
+        return ReplyKeyboardRemove()
+
+    @property
+    def next_state(self) -> int:
+        return ConversationHandler.END
 
 
-def confirm_choice(update: Update):
-    reply_keyboard = ReplyKeyboardRemove()
-    reply_text: str = constants.CONFIRM_CHOICE
-    update.message.reply_text(
-        text=reply_text,
-        reply_markup=reply_keyboard
-    )
+class CancellationPresenter(TelegramPresenter):
+    def __init__(self, update: Update):
+        super().__init__(update)
+
+    @property
+    def text(self) -> str:
+        return constants.SAY_GOODBYE
+
+    @property
+    def reply_keyboard(self) -> Union[ReplyKeyboardRemove, ReplyKeyboardMarkup]:
+        return ReplyKeyboardRemove()
+
+    @property
+    def next_state(self) -> int:
+        return ConversationHandler.END

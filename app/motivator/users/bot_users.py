@@ -1,7 +1,8 @@
 from abc import ABCMeta, abstractmethod
-from typing import Dict
+from typing import Dict, List
 
 from app.motivator.users.user_dto import UserDTO
+from app.motivator.constants import APP_HABITS
 
 
 class BaseBotUser(metaclass=ABCMeta):
@@ -16,6 +17,10 @@ class BaseBotUser(metaclass=ABCMeta):
         # todo do we really need it?
         return not self.can_start()
 
+    @abstractmethod
+    def get_available_habits(self) -> List[str]:
+        raise NotImplementedError
+
     @property
     def data_for_save(self) -> Dict[int, dict]:
         return {self.user_data.user_id: self.user_data.__dict__}
@@ -28,6 +33,9 @@ class NewBotUser(BaseBotUser):
     def can_start(self) -> bool:
         return True
 
+    def get_available_habits(self) -> List[str]:
+        return APP_HABITS
+
 
 class KnownBotUser(BaseBotUser):
     def __init__(self, user_id, habits):
@@ -35,3 +43,7 @@ class KnownBotUser(BaseBotUser):
 
     def can_start(self) -> bool:
         return self.user_data.habits_amount < self.user_data.max_habit
+
+    def get_available_habits(self) -> List[str]:
+        available_habits: set = set(APP_HABITS).difference(self.user_data.habits)
+        return list(available_habits)

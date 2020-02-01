@@ -1,6 +1,13 @@
-from app.motivator.habits.habits_constants import APP_HABITS
+# habit related constants
+EATING_FLOUR = 'Перестать кушать мучное'
+
+APP_HABITS: list = [
+    EATING_FLOUR
+]
+MAX_HABITS = len(APP_HABITS)
 
 
+# bot related constants
 REACT_START_CHOICE, REACT_HABIT_CHOICE = range(2)
 
 NEW_USER_GREETING = 'Привет, новичок! Я мотивирую людей бросить что-то или начать. Готов начать?'

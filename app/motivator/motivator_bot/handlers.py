@@ -1,7 +1,7 @@
 from telegram.ext import Filters, CommandHandler, MessageHandler, Handler
 
 from app.motivator.motivator_bot.handlers_logic.callbacks import start, react_start_choice, react_habit_choice, cancel
-from app.motivator.motivator_bot.constants import (
+from app.motivator.constants import (
     REACT_START_CHOICE, REACT_HABIT_CHOICE, READY_TO_START_ANSWERS, HABITS_CHOICE_ANSWERS
 )
 from app.motivator.motivator_bot.utils import convert_answer_reply_to_regex

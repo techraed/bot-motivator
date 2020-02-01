@@ -1,7 +1,6 @@
 from typing import List
 
-from app.motivator.habits.base import Habit
-from app.motivator.habits.habits_constants import MAX_HABITS
+from app.motivator.constants import MAX_HABITS
 
 
 class UserDTO:
@@ -11,9 +10,9 @@ class UserDTO:
     """
     max_habit: int = MAX_HABITS
 
-    def __init__(self, user_id: int, habits: List[Habit] = None):
+    def __init__(self, user_id: int, habits: List[str] = None):
         self.user_id: int = user_id
-        self.habits: List[Habit] = [] if habits is None else habits
+        self.habits: List[str] = [] if habits is None else habits
         """
         self._results: Dict[Habbit, int] -> рекорд, сколько продержался
         self._sex: str
