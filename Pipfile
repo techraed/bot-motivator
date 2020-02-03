@@ -10,6 +10,7 @@ celery = "*"
 python-telegram-bot = "==12.2.0"
 sh = "*"
 readerwriterlock = "*"
+pyyaml = "*"
 
 [requires]
 python_version = "3.6"
