@@ -58,4 +58,4 @@ class TestDataManager(ApplicationDataOperator):
 if __name__ == '__main__':
     # todo temporary
     with open(os.path.join(os.path.dirname(__file__), 'app_db'), 'wb') as f:
-        pickle.dump({304177474: {'user_id': 304177474, 'habits': ['LOL']}}, f)
+        pickle.dump({304177474: {'user_id': 304177474, 'habits': None}}, f)

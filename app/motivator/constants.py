@@ -1,9 +1,9 @@
-# habit related constants
-EATING_FLOUR = 'Перестать кушать мучное'
+from typing import List
 
-APP_HABITS: list = [
-    EATING_FLOUR
-]
+from app.motivator.habits import ALL_HABITS_NAMES
+
+# habit related constants
+APP_HABITS: List[str] = ALL_HABITS_NAMES
 MAX_HABITS = len(APP_HABITS)
 
 

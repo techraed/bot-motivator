@@ -18,7 +18,7 @@ class BaseUpdateDataHandler(metaclass=ABCMeta):
         raise NotImplementedError
 
 
-UpdateController: Type = Type[BaseUpdateDataHandler]
+# UpdateController: Type = Type[BaseUpdateDataHandler]
 
 
 class StartUpdateDataHandler(BaseUpdateDataHandler):
