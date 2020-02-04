@@ -5,7 +5,7 @@ from readerwriterlock import rwlock
 
 # todo read priority problem
 # todo data schema and it's validation when saving/reading, current data schema is Dict[id, {BOTUSERDTO}]
-class ApplicationDataOperator:
+class DataOperator:
     """
     Performs main app_data operations: load, safe. Concurrently safe.
     tests https://github.com/elarivie/pyReaderWriterLock/blob/master/tests/rwlock_test.py
@@ -39,7 +39,7 @@ class ApplicationDataOperator:
         return pickled_data
 
 
-class AppDataManager(ApplicationDataOperator):
+class AppDataManager(DataOperator):
     """
     Base data manager
     """
@@ -47,7 +47,7 @@ class AppDataManager(ApplicationDataOperator):
         super().__init__('app_db')
 
 
-class TestDataManager(ApplicationDataOperator):
+class TestDataManager(DataOperator):
     """
     Data manger for tests
     """
