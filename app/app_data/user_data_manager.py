@@ -5,6 +5,15 @@ from app.motivator.users.bot_users import NewBotUser, KnownBotUser
 
 
 class UserDataManager:
+    """
+    AppDataManager does not know anything about managing data. It just saves
+    it all in dict. So, the only things it knows: how to work with file, what (dict)
+    to save in file.
+
+    Concerning UserDataManager, it knows that there is user data in storage. It does not know
+    any details about it, but it knows some main identifying information, like primary keys (pk).
+    For example, users pk is his telegram id (aka `user_id`), so UserDataManager knows about that.
+    """
     def __init__(self):
         self._db_manager = AppDataManager()
 
