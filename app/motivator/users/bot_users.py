@@ -1,9 +1,8 @@
 from abc import ABCMeta, abstractmethod
-from typing import Dict, List
+from typing import Dict, List, Set
 
-from app.motivator.users.user_dto import UserDTO
+from app.motivator.users.user_dto import UserDTO, Habit
 from app.motivator.constants import APP_HABITS
-from app.motivator.habits.base_habit import Habit
 
 
 class BaseBotUser(metaclass=ABCMeta):
@@ -26,7 +25,7 @@ class BaseBotUser(metaclass=ABCMeta):
         raise NotImplementedError
 
     @property
-    def data_for_save(self) -> Dict[int, dict]:
+    def user_data_for_save(self) -> Dict[int, dict]:
         return {self.user_data.user_id: self.user_data.__dict__}
 
 
@@ -49,5 +48,6 @@ class KnownBotUser(BaseBotUser):
         return self.user_data.habits_amount < self.user_data.max_habit
 
     def get_available_habits(self) -> List[str]:
-        available_habits: set = set(APP_HABITS).difference(self.user_data.habits_for_telegram)
+        current_user_habits: Set[str] = {habit.format_name_for_telegram() for habit in self.user_data.habits}
+        available_habits: set = set(APP_HABITS).difference(current_user_habits)
         return list(available_habits)

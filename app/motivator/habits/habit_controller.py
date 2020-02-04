@@ -1,7 +1,7 @@
 from typing import Dict
 
 from app.motivator.habits.habits_constructor import HabitConstructor, Habit
-from app.motivator.habits.habits_config_data_managers import habits_config_data_provider, HabitsConfigDataProvider
+from app.motivator.habits.habits_data_provider import habits_config_data_provider, HabitsConfigDataProvider
 
 
 class HabitsController:

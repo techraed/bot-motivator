@@ -1,4 +1,4 @@
-from app.motivator.habits.base_habit import Habit
+from app.motivator.habits.habit import Habit
 
 
 # todo валидируй схему инпута в construct

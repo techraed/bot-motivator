@@ -1,6 +1,6 @@
 from typing import List
 
-from app.motivator.habits.habits_config_data_managers import habits_config_data_provider
+from app.motivator.habits.habits_data_provider import habits_config_data_provider
 
 # habit related constants
 APP_HABITS: List[str] = habits_config_data_provider.get_habits_names()

@@ -1,8 +1,7 @@
 from typing import Union
 
 from app.app_data.user_data_manager import UserDataManager
-from app.motivator.users.user_constructor import UserConstructor
-from app.motivator.users.bot_users import NewBotUser, KnownBotUser
+from app.motivator.users.user_constructor import UserConstructor, NewBotUser, KnownBotUser
 
 
 class UserController:
@@ -24,4 +23,4 @@ class UserController:
 
     @classmethod
     def save_user(cls, user: Union[NewBotUser, KnownBotUser]):
-        cls._user_data_manager.save_user_data(user)
+        cls._user_data_manager.save_user_data(user.user_data_for_save)

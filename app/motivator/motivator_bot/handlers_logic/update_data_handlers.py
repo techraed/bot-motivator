@@ -1,12 +1,11 @@
-from typing import Union, Type
+from typing import Union
 from abc import ABCMeta, abstractmethod
 
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from app.motivator.users.user_controller import UserController
+from app.motivator.users.user_controller import UserController, NewBotUser, KnownBotUser
 from app.motivator.habits.habit_controller import HabitsController
-from app.motivator.users.bot_users import NewBotUser, KnownBotUser
 
 
 class BaseUpdateDataHandler(metaclass=ABCMeta):
@@ -17,9 +16,6 @@ class BaseUpdateDataHandler(metaclass=ABCMeta):
     @abstractmethod
     def handle_data(self):
         raise NotImplementedError
-
-
-# UpdateController: Type = Type[BaseUpdateDataHandler]
 
 
 class StartUpdateDataHandler(BaseUpdateDataHandler):

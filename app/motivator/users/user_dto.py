@@ -1,7 +1,7 @@
 from typing import List
 
 from app.motivator.constants import MAX_HABITS
-from app.motivator.habits.base_habit import Habit
+from app.motivator.habits.habit import Habit
 
 
 class UserDTO:
@@ -23,7 +23,3 @@ class UserDTO:
     @property
     def habits_amount(self) -> int:
         return len(self.habits)
-
-    @property
-    def habits_for_telegram(self) -> List[str]:
-        return [habit.format_name_for_telegram() for habit in self.habits]

@@ -4,14 +4,14 @@ from typing import List, Dict
 
 
 # todo схема привычки и ее валидация
-class HabitConfigsDataCollector:
+class HabitsConfigsDataCollector:
 
     def __init__(self):
         current_dir: str = os.path.dirname(os.path.abspath(__file__))
         self._config_dir: str = os.path.join(current_dir, 'habits_configs')
 
     def collect_data(self) -> List[Dict]:
-        all_habits_data: list = []
+        all_habits_data: List[Dict] = []
         for habit_file in os.listdir(self._config_dir):
             all_habits_data.append(self._get_habit_config_data(habit_file))
 
@@ -24,7 +24,7 @@ class HabitConfigsDataCollector:
 
 class HabitsConfigDataProvider:
     def __init__(self):
-        self._habits_data: list = HabitConfigsDataCollector().collect_data()
+        self._habits_data: List[Dict] = HabitsConfigsDataCollector().collect_data()
 
     def get_habits_names(self) -> List[str]:
         return [habit['habit_name'] for habit in self._habits_data]
