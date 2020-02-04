@@ -5,7 +5,7 @@ from telegram import Update
 from telegram.ext import CallbackContext
 
 from app.motivator.users.user_controller import UserController, NewBotUser, KnownBotUser
-from app.motivator.habits.habit_controller import HabitsController
+from app.motivator.habits.habits_controller import HabitsController
 
 
 class BaseUpdateDataHandler(metaclass=ABCMeta):
