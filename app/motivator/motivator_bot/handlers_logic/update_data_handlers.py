@@ -5,6 +5,7 @@ from telegram import Update
 from telegram.ext import CallbackContext
 
 from app.motivator.users.user_controller import UserController
+from app.motivator.habits.habit_controller import HabitsController
 from app.motivator.users.bot_users import NewBotUser, KnownBotUser
 
 
@@ -49,5 +50,5 @@ class ChoiceConfirmUpdateHandler(BaseUpdateDataHandler):
     def handle_data(self):
         chosen_habit: str = self._update.message.text
         bot_user: Union[NewBotUser, KnownBotUser] = self._context.user_data['bot_user_instance']
-        bot_user.user_data.habits.append(chosen_habit)
+        bot_user.add_habit(HabitsController.create_new_habit(chosen_habit))
         UserController.save_user(bot_user)

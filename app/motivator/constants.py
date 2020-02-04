@@ -1,10 +1,10 @@
 from typing import List
 
-from app.motivator.habits.habits_data_managers import HabitsDataProvider
+from app.motivator.habits.habits_config_data_managers import habits_config_data_provider
 
 # habit related constants
-APP_HABITS: List[str] = HabitsDataProvider.get_habits_names()
-MAX_HABITS = HabitsDataProvider.get_habits_amount()
+APP_HABITS: List[str] = habits_config_data_provider.get_habits_names()
+MAX_HABITS = habits_config_data_provider.get_habits_amount()
 
 
 # bot related constants

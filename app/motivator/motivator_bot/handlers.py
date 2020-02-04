@@ -7,7 +7,7 @@ from app.motivator.constants import (
 from app.motivator.motivator_bot.utils import convert_answer_reply_to_regex
 
 
-entry_point_start: Handler = CommandHandler('start', start, )
+entry_point_start: Handler = CommandHandler('start', start)
 start_processor: Handler = MessageHandler(
     Filters.regex(convert_answer_reply_to_regex(READY_TO_START_ANSWERS)),
     react_start_choice

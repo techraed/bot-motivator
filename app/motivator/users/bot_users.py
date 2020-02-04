@@ -3,11 +3,15 @@ from typing import Dict, List
 
 from app.motivator.users.user_dto import UserDTO
 from app.motivator.constants import APP_HABITS
+from app.motivator.habits.base_habit import Habit
 
 
 class BaseBotUser(metaclass=ABCMeta):
     def __init__(self, user_id, habits):
         self.user_data: UserDTO = UserDTO(user_id, habits)
+
+    def add_habit(self, habit: Habit):
+        self.user_data.habits.append(habit)
 
     @abstractmethod
     def can_start(self) -> bool:
@@ -45,5 +49,5 @@ class KnownBotUser(BaseBotUser):
         return self.user_data.habits_amount < self.user_data.max_habit
 
     def get_available_habits(self) -> List[str]:
-        available_habits: set = set(APP_HABITS).difference(self.user_data.habits)
+        available_habits: set = set(APP_HABITS).difference(self.user_data.habits_for_telegram)
         return list(available_habits)

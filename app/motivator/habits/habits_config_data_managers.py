@@ -22,13 +22,24 @@ class HabitConfigsDataCollector:
             return yaml.safe_load(habit_data)
 
 
-class HabitsDataProvider:
-    HABITS_DATA: list = HabitConfigsDataCollector().collect_data()
+class HabitsConfigDataProvider:
+    def __init__(self):
+        self._habits_data: list = HabitConfigsDataCollector().collect_data()
 
-    @classmethod
-    def get_habits_names(cls) -> List[str]:
-        return [habit['habit_name'] for habit in cls.HABITS_DATA]
+    def get_habits_names(self) -> List[str]:
+        return [habit['habit_name'] for habit in self._habits_data]
 
-    @classmethod
-    def get_habits_amount(cls) -> int:
-        return len(cls.HABITS_DATA)
+    def get_habit_by_name(self, name: str) -> Dict:
+        for habit in self._habits_data:
+            if habit['habit_name'] == name:
+                return habit
+
+    def get_habits_amount(self) -> int:
+        return len(self._habits_data)
+
+
+habits_config_data_provider: HabitsConfigDataProvider = HabitsConfigDataProvider()
+
+
+if __name__ == '__main__':
+    print(habits_config_data_provider.get_habit_by_name('Перестать есть мучное'))
