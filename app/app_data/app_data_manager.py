@@ -1,6 +1,5 @@
 import os
 import pickle
-from readerwriterlock import rwlock
 
 
 # todo read priority problem
@@ -12,30 +11,14 @@ class DataOperator:
     """
     def __init__(self, file_name: str):
         self._file: str = os.path.join(os.path.dirname(__file__), file_name)
-        self._synch_primitive = rwlock.RWLockRead()
 
-    def safe_data_update(self, data: dict):
-        with self._synch_primitive.gen_wlock():
-            updated_data = self._get_updated_data(data)
-            self._save_data(updated_data)
+    def save_data(self, data):
+        with open(self._file, 'wb') as cur_f:
+            pickle.dump(data, cur_f)
 
-    def _get_updated_data(self, update: dict) -> dict:
-        current_data: dict = self._data_load()
-        current_data.update(update)
-        return current_data
-
-    def _save_data(self, data):
-        with open(self._file, 'wb') as f:
-            pickle.dump(data, f)
-
-    def safe_data_load(self) -> dict:
-        with self._synch_primitive.gen_rlock():
-            data: dict = self._data_load()
-        return data
-
-    def _data_load(self) -> dict:
-        with open(self._file, 'rb') as f:
-            pickled_data: dict = pickle.load(f)
+    def data_load(self):
+        with open(self._file, 'rb') as cur_f:
+            pickled_data: dict = pickle.load(cur_f)
         return pickled_data
 
 
