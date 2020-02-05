@@ -4,8 +4,8 @@ from abc import ABCMeta, abstractmethod
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from app.motivator.users.user_controller import UserController, NewBotUser, KnownBotUser
-from app.motivator.habits.habits_controller import HabitsController
+from app.app_data.user_data_manager import user_data_manager
+from app.motivator.users.user_builder import UserBuilder, NewBotUser, KnownBotUser
 
 
 class BaseUpdateDataHandler(metaclass=ABCMeta):
@@ -25,7 +25,8 @@ class StartUpdateDataHandler(BaseUpdateDataHandler):
 
     def handle_data(self):
         user_id: int = self._update.message.chat.id
-        bot_user: Union[NewBotUser, KnownBotUser] = UserController.get_user(user_id)
+        user_data: dict = user_data_manager.get_user_data(user_id)
+        bot_user: Union[NewBotUser, KnownBotUser] = UserBuilder(user_id, user_data).build_user()
         self._context.user_data['bot_user_instance']: Union[NewBotUser, KnownBotUser] = bot_user
 
 
@@ -46,5 +47,5 @@ class ChoiceConfirmUpdateHandler(BaseUpdateDataHandler):
     def handle_data(self):
         chosen_habit: str = self._update.message.text
         bot_user: Union[NewBotUser, KnownBotUser] = self._context.user_data['bot_user_instance']
-        bot_user.add_habit(HabitsController.create_new_habit(chosen_habit))
-        UserController.save_user(bot_user)
+        bot_user.add_habit(chosen_habit)
+        user_data_manager.update_users_data(bot_user.user_data_for_save)

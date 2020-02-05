@@ -1,19 +1,14 @@
-from typing import List
+from typing import List, Dict
 
 from app.motivator.constants import MAX_HABITS
-from app.motivator.habits.habit import Habit
 
 
 class UserDTO:
-    """
-    Найди способ защититься следующим образом:
-    чтобы название параметров совпадало с названием атрибутов
-    """
     max_habit: int = MAX_HABITS
 
-    def __init__(self, user_id: int, habits: List[Habit] = None):
+    def __init__(self, user_id: int, habits: List[Dict[str, int]] = None):
         self.user_id: int = user_id
-        self.habits: List[Habit] = [] if habits is None else habits
+        self.habits: List[Dict[str, int]] = [] if habits is None else habits
         """
         self._results: Dict[Habbit, int] -> рекорд, сколько продержался
         self._sex: str
@@ -23,3 +18,7 @@ class UserDTO:
     @property
     def habits_amount(self) -> int:
         return len(self.habits)
+
+    @property
+    def user_current_habit_names(self):
+        return [habit_name for habit in self.habits for habit_name in habit.keys()]
