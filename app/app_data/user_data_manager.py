@@ -3,7 +3,7 @@ from typing import Dict, List, Tuple
 from readerwriterlock import rwlock
 
 from app.app_data.app_data_manager import AppDataManager
-from app.app_data.validators import UserDataFiltersFacade
+from app.app_data.filters import UserDataFiltersFacade
 
 
 class UserDataManager:
