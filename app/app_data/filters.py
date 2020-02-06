@@ -12,9 +12,10 @@ class UserHabitsFilter(UserRowFilter):
 
     @classmethod
     def filter(cls, user_data):
-        for habit in user_data['habits']:
+        user_habits: list = user_data['habits']
+        for habit in user_habits:
             if cls._is_not_valid_habit(habit):
-                user_data.remove(habit)
+                user_habits.remove(habit)
 
     @classmethod
     def _is_not_valid_habit(cls, habit) -> bool:

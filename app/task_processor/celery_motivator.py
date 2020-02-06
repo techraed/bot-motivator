@@ -12,13 +12,13 @@ app = Celery('celery_motivator', broker='pyamqp://guest@localhost//')
 
 def motivate():
     all_users_data = user_data_manager.get_all_users_data()
-    users_to_save: List[Tuple[int, Dict]] = []
+    users_data_to_save: List[Tuple[int, Dict]] = []
     for user_id, user_data in all_users_data.items():
         bot_user: KnownBotUser = UserBuilder(user_id, user_data).build_user()
         for message in bot_user.get_messages():
             motivator.bot.send_message(chat_id=user_id, text=message)
-        users_to_save.extend(bot_user.user_data_for_save)
-    user_data_manager.update_users_data(users_to_save)
+        users_data_to_save.extend(bot_user.user_data_for_save)
+    user_data_manager.update_users_data(users_data_to_save)
 
 
 if __name__ == "__main__":
