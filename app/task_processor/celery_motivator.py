@@ -1,3 +1,4 @@
+import os
 from typing import List, Tuple, Dict
 
 from celery import Celery
@@ -8,8 +9,10 @@ from app.motivator.users.user_builder import UserBuilder, KnownBotUser
 
 
 app = Celery('celery_motivator', broker='pyamqp://guest@localhost//')
+path_to_motivate_task = os.path.splitext(__file__)[0]
 
 
+@app.task
 def motivate():
     all_users_data = user_data_manager.get_all_users_data()
     users_data_to_save: List[Tuple[int, Dict]] = []
@@ -21,5 +24,9 @@ def motivate():
     user_data_manager.update_users_data(users_data_to_save)
 
 
-if __name__ == "__main__":
-    motivate()
+app.conf.beat_schedule = {
+    "motivate": {
+        "task": "app.task_processor.celery_motivator.motivate",
+        "schedule": 5.0,
+    }
+}

@@ -43,4 +43,5 @@ habits_config_data_provider: HabitsConfigDataProvider = HabitsConfigDataProvider
 
 if __name__ == '__main__':
     # todo tmp
-    print(habits_config_data_provider.get_habit_by_name('Перестать есть мучное'))
+    import pprint
+    pprint.pprint(habits_config_data_provider.get_habit_by_name('Перестать есть мучное'))
