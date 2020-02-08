@@ -2,13 +2,8 @@ import os
 import pickle
 
 
-# todo read priority problem
 # todo data schema and it's validation when saving/reading, current data schema is Dict[id, {BOTUSERDTO}]
 class DataOperator:
-    """
-    Performs main app_data operations: load, safe. Concurrently safe.
-    tests https://github.com/elarivie/pyReaderWriterLock/blob/master/tests/rwlock_test.py
-    """
     def __init__(self, file_name: str):
         self._file: str = os.path.join(os.path.dirname(__file__), file_name)
 

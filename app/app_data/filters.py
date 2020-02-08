@@ -11,8 +11,7 @@ class UserRowFilter(metaclass=ABCMeta):
 class UserHabitsFilter(UserRowFilter):
 
     @classmethod
-    def filter(cls, user_data):
-        user_habits: list = user_data['habits']
+    def filter(cls, user_habits: list):
         for habit in user_habits:
             if cls._is_not_valid_habit(habit):
                 user_habits.remove(habit)
@@ -32,4 +31,4 @@ class UserDataFiltersFacade:
 
     @classmethod
     def filter_data(cls, user_data):
-        cls._habit_filter_class.filter(user_data)
+        cls._habit_filter_class.filter(user_data['habits'])

@@ -21,10 +21,6 @@ class BaseBotUser(metaclass=ABCMeta):
     def can_start(self) -> bool:
         raise NotImplementedError
 
-    def can_not_start(self) -> bool:
-        # todo do we really need it?
-        return not self.can_start()
-
     @abstractmethod
     def get_available_habits(self) -> List[str]:
         raise NotImplementedError

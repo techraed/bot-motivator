@@ -9,7 +9,6 @@ from app.motivator.motivator_bot.handlers_logic.update_data_handlers import (
 )
 
 
-# todo имплицитное определение context.user_data между хэндлероом и презентером
 def start(update: Update, context: CallbackContext) -> int:
     """
     Greets user and asks whether he is ready to add habits, if user

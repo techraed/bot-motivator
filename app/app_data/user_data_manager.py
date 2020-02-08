@@ -14,6 +14,7 @@ class UserDataManager:
     Concerning UserDataManager, it knows that there is a user data in storage. It does not know
     any details about it, but it knows some main identifying information, like data fields (attributes),
     data scheme (dict), types.
+    Concurrently safe. Tests https://github.com/elarivie/pyReaderWriterLock/blob/master/tests/rwlock_test.py
     """
     def __init__(self):
         self._db_manager = AppDataManager()
@@ -32,7 +33,7 @@ class UserDataManager:
 
     @staticmethod
     def _actualize_user_data(all_users_data):
-        for user_id, user_data in all_users_data.items():
+        for _, user_data in all_users_data.items():
             UserDataFiltersFacade.filter_data(user_data)
 
     def update_users_data(self, users_data_for_save: List[Tuple[int, Dict]]):
