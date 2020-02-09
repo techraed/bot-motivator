@@ -22,7 +22,7 @@ class UserHabitsFilter(UserRowFilter):
 
     @staticmethod
     def _is_valid_habit(habit) -> bool:
-        if habit['state'] is not None:
+        if habit['message_state'] is not None:
             return True
 
 

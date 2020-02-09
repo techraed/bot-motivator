@@ -16,11 +16,17 @@ path_to_motivate_task = os.path.splitext(__file__)[0]
 def motivate():
     all_users_data = user_data_manager.get_all_users_data()
     users_data_to_save: List[Tuple[int, Dict]] = []
+
     for user_id, user_data in all_users_data.items():
         bot_user: KnownBotUser = UserBuilder(user_id, user_data).build_user()
-        for message in bot_user.get_messages():
-            motivator.bot.send_message(chat_id=user_id, text=message)
-        bot_user.update_habits_states()
+        responses_for_user: list = bot_user.get_responses()
+
+        if responses_for_user:
+            for response in responses_for_user:
+                motivator.bot.send_message(chat_id=user_id, text=response['message'])
+                motivator.bot.send_sticker(chat_id=user_id, sticker=response['sticker'])
+            bot_user.update_habits_states()
+
         users_data_to_save.extend(bot_user.user_data_for_save)
     user_data_manager.update_users_data(users_data_to_save)
 
@@ -28,6 +34,6 @@ def motivate():
 app.conf.beat_schedule = {
     "motivate": {
         "task": "app.task_processor.celery_motivator.motivate",
-        "schedule": 2.0,
+        "schedule": 5.0,
     }
 }

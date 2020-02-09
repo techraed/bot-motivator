@@ -52,4 +52,4 @@ user_data_manager = UserDataManager()
 
 if __name__ == '__main__':
     # todo tmp
-    print(user_data_manager.get_all_users_data())
+    print(user_data_manager.get_user_data(304177474))

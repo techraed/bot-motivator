@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from typing import Dict, List, Tuple
+from datetime import datetime
 
 from app.motivator.constants import APP_HABITS
 from app.motivator.users.user_dto import UserDTO
@@ -8,11 +9,22 @@ from app.motivator.users.habits.habits_data_provider import habits_config_data_p
 
 class BaseBotUser(metaclass=ABCMeta):
     def __init__(self, user_id, habits):
+        self.now_time: datetime = datetime.now()
         self.user_data: UserDTO = UserDTO(user_id, habits)
         self._habits_data_provider: HabitsConfigDataProvider = habits_config_data_provider
 
     def add_habit(self, habit: str):
-        new_habit_data: Dict = {"state": 1}
+        new_habit_data: Dict = {
+            "message_state": 1,
+            "time_state": {
+                "year": self.now_time.year,
+                "month": self.now_time.month,
+                "day": self.now_time.day,
+                "hour": self.now_time.hour,
+                "minute": self.now_time.minute,
+                "second": self.now_time.second
+            }
+        }
         new_habit_data.update(self._habits_data_provider.get_habit_by_name(habit))
         self.user_data.habits.append(new_habit_data)
 
@@ -51,14 +63,33 @@ class KnownBotUser(BaseBotUser):
         available_habits: set = set(APP_HABITS).difference(self.user_data.user_current_habit_names)
         return list(available_habits)
 
-    def get_messages(self) -> List[str]:
-        messages: List[str] = []
-        for habit in self.user_data.habits:
-            actual_message = habit['motivational_messages'][habit['state']]
-            messages.append(actual_message)
-        return messages
-
     def update_habits_states(self):
         for habit in self.user_data.habits:
             max_habit_state: int = self._habits_data_provider.count_habit_messages(habit['habit_name'])
-            habit['state'] = None if habit['state'] == max_habit_state else habit['state'] + 1
+            habit['message_state'] = None if habit['message_state'] == max_habit_state else habit['message_state'] + 1
+            habit['time_state'] = {
+                "year": self.now_time.year,
+                "month": self.now_time.month,
+                "day": self.now_time.day,
+                "hour": self.now_time.hour,
+                "minute": self.now_time.minute,
+                "second": self.now_time.second
+            }
+
+    def get_responses(self) -> List[Dict]:
+        messages: List[Dict] = []
+        habits_for_motivation = self.habits_to_motivate
+        for habit in habits_for_motivation:
+            actual_message = habit['motivational_messages'][habit['message_state']]
+            actual_sticker = habit['motivational_stickers'][habit['message_state']]
+            messages.append({'message': actual_message, 'sticker': actual_sticker})
+        return messages
+
+    @property
+    def habits_to_motivate(self) -> list:
+        returning_habits: List = []
+        for habit in self.user_data.habits:
+            habit_time_state: datetime = datetime(**habit['time_state'])
+            if self.now_time.day - 3 >= habit_time_state.day and self.now_time.hour >= 14:
+                returning_habits.append(habit)
+        return returning_habits
