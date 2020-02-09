@@ -3,18 +3,17 @@ from typing import Dict, List, Tuple
 
 from app.motivator.constants import APP_HABITS
 from app.motivator.users.user_dto import UserDTO
-from app.motivator.users.habits.habit_message_getter import HabitMessageGetter
 from app.motivator.users.habits.habits_data_provider import habits_config_data_provider, HabitsConfigDataProvider
 
 
 class BaseBotUser(metaclass=ABCMeta):
     def __init__(self, user_id, habits):
         self.user_data: UserDTO = UserDTO(user_id, habits)
-        self._habits_config_data_provider: HabitsConfigDataProvider = habits_config_data_provider
+        self._habits_data_provider: HabitsConfigDataProvider = habits_config_data_provider
 
     def add_habit(self, habit: str):
         new_habit_data: Dict = {"state": 1}
-        new_habit_data.update(habits_config_data_provider.get_habit_by_name(habit))
+        new_habit_data.update(self._habits_data_provider.get_habit_by_name(habit))
         self.user_data.habits.append(new_habit_data)
 
     @abstractmethod
@@ -55,5 +54,11 @@ class KnownBotUser(BaseBotUser):
     def get_messages(self) -> List[str]:
         messages: List[str] = []
         for habit in self.user_data.habits:
-            messages.append(HabitMessageGetter(habit).get_actual_message())
+            actual_message = habit['motivational_messages'][habit['state']]
+            messages.append(actual_message)
         return messages
+
+    def update_habits_states(self):
+        for habit in self.user_data.habits:
+            max_habit_state: int = self._habits_data_provider.count_habit_messages(habit['habit_name'])
+            habit['state'] = None if habit['state'] == max_habit_state else habit['state'] + 1

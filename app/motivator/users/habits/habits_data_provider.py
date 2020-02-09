@@ -29,6 +29,11 @@ class HabitsConfigDataProvider:
     def get_habits_names(self) -> List[str]:
         return [habit['habit_name'] for habit in self._habits_data]
 
+    def count_habit_messages(self, habit_name: str) -> int:
+        habit_data = self.get_habit_by_name(habit_name)
+        habit_motivational_messages: Dict[int, str] = habit_data['motivational_messages']
+        return len(habit_motivational_messages)
+
     def get_habit_by_name(self, name: str) -> Dict:
         for habit in self._habits_data:
             if habit['habit_name'] == name:
@@ -45,3 +50,4 @@ if __name__ == '__main__':
     # todo tmp
     import pprint
     pprint.pprint(habits_config_data_provider.get_habit_by_name('Перестать есть мучное'))
+    pprint.pprint(habits_config_data_provider.count_habit_messages('Перестать есть мучное'))
