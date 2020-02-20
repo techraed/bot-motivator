@@ -2,7 +2,7 @@ from typing import Dict, List, Tuple
 
 from readerwriterlock import rwlock
 
-from app.app_data.app_data_manager import AppDataManager
+from app.app_data.app_data_manager import AppDataManager,TestDataManager
 from app.app_data.filters import UserDataFiltersFacade
 
 
@@ -46,6 +46,11 @@ class UserDataManager:
         current_data.update(update)
         return current_data
 
+
+class TestUserDataManager(UserDataManager):
+    def __init__(self):
+        super().__init__()
+        self._db_manager = TestDataManager()
 
 user_data_manager = UserDataManager()
 
