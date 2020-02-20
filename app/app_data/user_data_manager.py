@@ -52,6 +52,7 @@ class TestUserDataManager(UserDataManager):
         super().__init__()
         self._db_manager = TestDataManager()
 
+
 user_data_manager = UserDataManager()
 
 
