@@ -54,7 +54,7 @@ class TestUserDataManager(UserDataManager):
 
 
 user_data_manager = UserDataManager()
-
+test_user_data_manager = TestUserDataManager()
 
 if __name__ == '__main__':
     # todo tmp
