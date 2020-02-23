@@ -2,7 +2,7 @@ from typing import Dict, List, Tuple
 
 from readerwriterlock import rwlock
 
-from app.app_data.app_data_manager import AppDataManager,TestDataManager
+from app.app_data.app_data_manager import AppDataManager, TestDataManager
 from app.app_data.filters import UserDataFiltersFacade
 
 
@@ -54,7 +54,7 @@ class TestUserDataManager(UserDataManager):
 
 
 user_data_manager = UserDataManager()
-test_user_data_manager = TestUserDataManager()
+
 
 if __name__ == '__main__':
     # todo tmp
