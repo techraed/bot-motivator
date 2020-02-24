@@ -12,18 +12,17 @@ class ChoiceHandlerTest(unittest.TestCase):
         create_test_db_file()
 
     def test_adding_data(self):
-        chosen_habit: str = 'sport'
+        chosen_habit: str = "Перестать есть мучное"
         user_data: dict = TestUserDataManager().get_user_data(self.user_id)
         bot_user: Union[NewBotUser, KnownBotUser] = UserBuilder(self.user_id, user_data).build_user()
         bot_user.add_habit(chosen_habit)
         TestUserDataManager().update_users_data(bot_user.user_data_for_save)
         user_data_new: dict = TestUserDataManager().get_user_data(self.user_id)
-        #self.assertEqual(user_data_new,chosen_habit )
-        print(user_data_new)
+        self.assertEqual(user_data_new['habits'][0]['habit_name'], chosen_habit)
 
     def tearDown(self):
         delete_test_db_file()
-
+        
 
 if __name__ == '__main__':
     unittest.main()
