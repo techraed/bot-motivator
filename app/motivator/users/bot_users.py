@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from typing import Dict, List, Tuple
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from app.motivator.constants import APP_HABITS
 from app.motivator.users.user_dto import UserDTO
@@ -90,6 +90,7 @@ class KnownBotUser(BaseBotUser):
         returning_habits: List = []
         for habit in self.user_data.habits:
             habit_time_state: datetime = datetime(**habit['time_state'])
-            if self.now_time.day - 3 >= habit_time_state.day and self.now_time.hour >= 14:
+            after_interval = timedelta(days=3)
+            if self.now_time - after_interval >= habit_time_state and self.now_time.hour >= 14:
                 returning_habits.append(habit)
         return returning_habits

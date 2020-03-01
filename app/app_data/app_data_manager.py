@@ -2,8 +2,7 @@ import os
 import pickle
 
 
-# todo data schema and it's validation when saving/reading, current data schema is Dict[id, {BOTUSERDTO}]
-class DataOperator:
+class FileDataOperator:
     def __init__(self, file_name: str):
         self._file: str = os.path.join(os.path.dirname(__file__), file_name)
 
@@ -17,7 +16,7 @@ class DataOperator:
         return pickled_data
 
 
-class AppDataManager(DataOperator):
+class AppFileDataManager(FileDataOperator):
     """
     Base data manager
     """
@@ -25,7 +24,7 @@ class AppDataManager(DataOperator):
         super().__init__('app_db')
 
 
-class TestDataManager(DataOperator):
+class TestFileDataManager(FileDataOperator):
     """
     Data manger for tests
     """

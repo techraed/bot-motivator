@@ -12,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 class MotivatorBot:
-    # todo assertions, better config handling
     # todo logging
     def __init__(self):
         self.token = AppSettings.TOKEN
@@ -20,8 +19,8 @@ class MotivatorBot:
         self.dispatcher = self.updater.dispatcher
 
     def setup(self):
-        c_h_inst = ConversationHandler(**conversation_handler_kwargs)
-        self.dispatcher.add_handler(c_h_inst)
+        register_conv_handler = ConversationHandler(**conversation_handler_kwargs)
+        self.dispatcher.add_handler(register_conv_handler)
 
     def run(self):
         self.updater.start_polling()

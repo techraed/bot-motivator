@@ -2,7 +2,7 @@ from typing import Dict, List, Tuple
 
 from readerwriterlock import rwlock
 
-from app.app_data.app_data_manager import AppDataManager, TestDataManager
+from app.app_data.app_data_manager import AppFileDataManager, TestFileDataManager
 from app.app_data.filters import UserDataFiltersFacade
 
 
@@ -17,7 +17,7 @@ class UserDataManager:
     Concurrently safe. Tests https://github.com/elarivie/pyReaderWriterLock/blob/master/tests/rwlock_test.py
     """
     def __init__(self):
-        self._db_manager = AppDataManager()
+        self._db_manager = AppFileDataManager()
         self._synch_primitive = rwlock.RWLockRead()
         self._data_filters = UserDataFiltersFacade
 
@@ -50,7 +50,7 @@ class UserDataManager:
 class TestUserDataManager(UserDataManager):
     def __init__(self):
         super().__init__()
-        self._db_manager = TestDataManager()
+        self._db_manager = TestFileDataManager()
 
 
 user_data_manager = UserDataManager()

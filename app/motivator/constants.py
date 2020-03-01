@@ -10,7 +10,7 @@ MAX_HABITS = habits_config_data_provider.get_habits_amount()
 # bot related constants
 REACT_START_CHOICE, REACT_HABIT_CHOICE = range(2)
 
-NEW_USER_GREETING = 'Привет, новичок! Я мотивирую людей бросить что-то или начать. Готов начать?'
+NEW_USER_GREETING = 'Привет, новичок! Я мотивирую людей бросить что-то или начать. Начнем?'
 
 KNOWN_USER_GREETING = 'Рад видеть снова! Хочешь добавить привычку?'
 
