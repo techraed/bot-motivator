@@ -5,14 +5,14 @@ from typing import List
 
 import sh
 
-from test.celery_test import celery_test_app_name # too explicit. why? look at the comment below
+from tests.celery_test import celery_test_app_name # too explicit. why? look at the comment below
 
 
 class CeleryServiceForTest(metaclass=ABCMeta):
     def __init__(self):
         self._service_command = sh.Command('celery')
         self._running_celery_process = None
-        self._celery_test_app_name = f'test.{celery_test_app_name}' # actually, it should be initialised from func param
+        self._celery_test_app_name = f'tests.{celery_test_app_name}' # actually, it should be initialised from func param
 
     def down(self):
         self._running_celery_process.signal(signal.SIGINT)

@@ -1,9 +1,9 @@
-import time
+from app.motivator.motivator_bot.telegram_bot import motivator
 
-from test.celery_test_runner import CeleryFacadeTester
+# todo script that creates app/app_data/app_db (or check it in __new__)
+# todo better typing!
 
 
-with CeleryFacadeTester():
-    print('SLEEP')
-    time.sleep(30)
-    print('WAKE UP TO KILL CELERY')
+if __name__ == "__main__":
+    motivator.setup()
+    motivator.run()
