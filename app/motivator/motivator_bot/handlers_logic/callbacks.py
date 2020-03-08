@@ -2,10 +2,11 @@ from telegram import Update
 from telegram.ext import CallbackContext
 
 from app.motivator.motivator_bot.handlers_logic.presenters import (
-    StartPresenter, ShowHabitsPresenter, ChoiceConfirmPresenter, CancellationPresenter
+    StartPresenter, ShowHabitsPresenter, ChoiceConfirmPresenter, CancellationPresenter, DeletePresenter,
+    ShowUserHabitsPresenter, DeleteConfirmPresenter
 )
 from app.motivator.motivator_bot.handlers_logic.update_data_handlers import (
-    StartUpdateDataHandler, ShowHabitsUpdateHandler, ChoiceConfirmUpdateHandler
+    StartUpdateDataHandler, ShowHabitsUpdateHandler, ChoiceConfirmUpdateHandler,ShowUserHabitsUpdateHandler,ChoiceDeleteUpdateHandler
 )
 
 
@@ -41,6 +42,38 @@ def react_habit_choice(update: Update, context: CallbackContext) -> int:
     confirm_presenter = ChoiceConfirmPresenter(update)
     confirm_presenter.present_response()
     return confirm_presenter.next_state
+
+
+def delete(update: Update, context: CallbackContext) -> int:
+    """
+    Asks whether user is ready to delete habits, if user
+    has deleting ability.
+    """
+    delete_presenter = DeletePresenter(update, context)
+    delete_presenter.present_response()
+    return delete_presenter.next_state
+
+
+def react_delete_choice(update: Update, context: CallbackContext) -> int:
+    """
+    Called after delete.
+    """
+    ShowUserHabitsUpdateHandler(update, context).handle_data()
+
+    show_user_habits_presenter = ShowUserHabitsPresenter(update, context)
+    show_user_habits_presenter.present_response()
+    return show_user_habits_presenter.next_state
+
+
+def react_confirm_choice(update: Update, context: CallbackContext) -> int:
+    """
+    Saves user delete-habit choice and finishes conversation
+    """
+    ChoiceDeleteUpdateHandler(update, context).handle_data()
+
+    delete_confirm_presenter = DeleteConfirmPresenter(update)
+    delete_confirm_presenter.present_response()
+    return delete_confirm_presenter.next_state
 
 
 def cancel(update: Update, context: CallbackContext) -> int:

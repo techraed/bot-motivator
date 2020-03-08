@@ -49,3 +49,24 @@ class ChoiceConfirmUpdateHandler(BaseUpdateDataHandler):
         bot_user: Union[NewBotUser, KnownBotUser] = self._context.user_data['bot_user_instance']
         bot_user.add_habit(chosen_habit)
         user_data_manager.update_users_data(bot_user.user_data_for_save)
+
+
+class ShowUserHabitsUpdateHandler(BaseUpdateDataHandler):
+    def __init__(self, update: Update, context: CallbackContext):
+        super().__init__(update, context)
+        self._context_user_data: dict = self._context.user_data
+
+    def handle_data(self):
+        user_delete_response: str = self._update.message.text
+        self._context_user_data['user_delete_response']: str = user_delete_response
+
+
+class ChoiceDeleteUpdateHandler(BaseUpdateDataHandler):
+    def __init__(self, update: Update, context: CallbackContext):
+        super().__init__(update, context)
+
+    def handle_data(self):
+        chosen_delete_habit: str = self._update.message.text
+        bot_user: Union[NewBotUser, KnownBotUser] = self._context.user_data['bot_user_instance']
+        bot_user.delete_habit(chosen_delete_habit)
+        user_data_manager.update_users_data(bot_user.user_data_for_save)
