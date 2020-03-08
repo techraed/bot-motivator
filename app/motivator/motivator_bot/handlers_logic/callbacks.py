@@ -6,7 +6,8 @@ from app.motivator.motivator_bot.handlers_logic.presenters import (
     ShowUserHabitsPresenter, DeleteConfirmPresenter
 )
 from app.motivator.motivator_bot.handlers_logic.update_data_handlers import (
-    StartUpdateDataHandler, ShowHabitsUpdateHandler, ChoiceConfirmUpdateHandler,ShowUserHabitsUpdateHandler,ChoiceDeleteUpdateHandler
+    StartUpdateDataHandler, ShowHabitsUpdateHandler, ChoiceConfirmUpdateHandler,
+    ShowUserHabitsUpdateHandler, ChoiceDeleteUpdateHandler
 )
 
 

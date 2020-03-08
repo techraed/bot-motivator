@@ -6,6 +6,7 @@ from app.app_data.user_data_manager import TestUserDataManager
 from app.motivator.users.user_builder import UserBuilder, NewBotUser, KnownBotUser
 from tests.test_utils.start_test_utils import create_test_db_file, delete_test_db_file
 
+
 class ChoiceDeleteHandlerTest(unittest.TestCase):
     def setUp(self):
         self.user_id = 123
@@ -22,7 +23,7 @@ class ChoiceDeleteHandlerTest(unittest.TestCase):
         bot_user.delete_habit(chosen_habit)
         TestUserDataManager().update_users_data(bot_user.user_data_for_save)
         user_data_new: dict = TestUserDataManager().get_user_data(self.user_id)
-        a=[]
+        a = []
         self.assertEqual(a, user_data_new['habits'])
 
     def tearDown(self):
