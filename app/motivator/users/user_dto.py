@@ -19,6 +19,7 @@ class UserDTO:
     def habits_amount(self) -> int:
         return len(self.habits)
 
+    # TODO db schema
     @property
     def user_current_habit_names(self):
         return [habit['habit_name'] for habit in self.habits]
