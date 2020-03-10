@@ -5,7 +5,7 @@ from app.motivator.motivator_bot.handlers_logic.callbacks import (
 )
 from app.motivator.constants import (
     REACT_START_CHOICE, REACT_HABIT_CHOICE, READY_TO_START_ANSWERS, HABITS_CHOICE_ANSWERS, READY_TO_DELETE_ANSWERS,
-REACT_DELETE_CHOICE,REACT_SHOW_CHOICE
+    REACT_DELETE_CHOICE, REACT_SHOW_CHOICE
 
 )
 from app.motivator.motivator_bot.utils import convert_answer_reply_to_regex
@@ -41,7 +41,7 @@ habit_delete_choice_processor: Handler = MessageHandler(
     react_confirm_choice
 )
 
-conversation_handler_delete_kwargs = {
+conversation_handler_kwargs2 = {
     'entry_points': [
         entry_point_delete
     ],

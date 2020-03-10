@@ -6,7 +6,6 @@ from telegram.ext import CallbackContext, ConversationHandler
 
 from app.motivator.users.bot_users import NewBotUser, KnownBotUser
 from app.motivator import constants
-from app.app_data.user_data_manager import user_data_manager
 
 
 class TelegramPresenter(metaclass=ABCMeta):
@@ -118,27 +117,25 @@ class DeletePresenter(TelegramPresenter):
         super().__init__(update, context)
         self._user_answer_choices: List[List[str]] = [constants.READY_TO_DELETE_ANSWERS]
         self._bot_user: Union[NewBotUser, KnownBotUser] = self._context.user_data['bot_user_instance']
-        self.user_id: int = self._update.message.chat.id
-        self.user_data: dict = user_data_manager.get_user_data(self.user_id)
-
-    def is_length(self):
-        return len(self.user_data['habits']) > 0
 
     @property
     def text(self) -> str:
-        if self.is_length():
+        if self.has_active_habits():
             return constants.DELETE_GREETING
         return constants.CANT_DELETE
 
     @property
     def reply_keyboard(self) -> Union[ReplyKeyboardRemove, ReplyKeyboardMarkup]:
-        if self.is_length():
+        if self.has_active_habits():
             return ReplyKeyboardMarkup(self._user_answer_choices, one_time_keyboard=True)
         return ReplyKeyboardRemove()
 
+    def has_active_habits(self):
+        return self._bot_user.user_data.habits_amount > 0
+
     @property
     def next_state(self):
-        if self.is_length():
+        if self.has_active_habits():
             return constants.REACT_DELETE_CHOICE
         return ConversationHandler.END
 
@@ -148,8 +145,6 @@ class ShowUserHabitsPresenter(TelegramPresenter):
         super().__init__(update, context)
         self._user_delete_response: str = self._context.user_data['user_delete_response']
         self._bot_user: Union[NewBotUser, KnownBotUser] = self._context.user_data['bot_user_instance']
-        self.user_id: int = self._update.message.chat.id
-        self.user_data: dict = user_data_manager.get_user_data(self.user_id)
 
     @property
     def text(self) -> str:
@@ -161,11 +156,8 @@ class ShowUserHabitsPresenter(TelegramPresenter):
     def reply_keyboard(self) -> Union[ReplyKeyboardRemove, ReplyKeyboardMarkup]:
         if self._is_not_affirmative_choice():
             return ReplyKeyboardRemove()
-        user_habits_list1 = []
-        for i in self.user_data['habits']:
-            user_habits_list = [(i['habit_name'])]
-            user_habits_list1.append(user_habits_list)
-        return ReplyKeyboardMarkup(user_habits_list1, one_time_keyboard=True)
+        user_habits: List[List[str]] = [self._bot_user.get_user_habits()]
+        return ReplyKeyboardMarkup(user_habits, one_time_keyboard=True)
 
     def _is_not_affirmative_choice(self):
         return self._user_delete_response == constants.NO

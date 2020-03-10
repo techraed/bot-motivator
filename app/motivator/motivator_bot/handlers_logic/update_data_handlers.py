@@ -51,6 +51,18 @@ class ChoiceConfirmUpdateHandler(BaseUpdateDataHandler):
         user_data_manager.update_users_data(bot_user.user_data_for_save)
 
 
+class DeleteUpdateDataHandler(BaseUpdateDataHandler):
+    def __init__(self, update: Update, context: CallbackContext):
+        super().__init__(update, context)
+        self._context_user_data: dict = self._context.user_data
+
+    def handle_data(self):
+        user_id: int = self._update.message.chat.id
+        user_data: dict = user_data_manager.get_user_data(user_id)
+        bot_user: Union[NewBotUser, KnownBotUser] = UserBuilder(user_id, user_data).build_user()
+        self._context.user_data['bot_user_instance']: Union[NewBotUser, KnownBotUser] = bot_user
+
+
 class ShowUserHabitsUpdateHandler(BaseUpdateDataHandler):
     def __init__(self, update: Update, context: CallbackContext):
         super().__init__(update, context)

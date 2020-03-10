@@ -33,15 +33,16 @@ class BaseBotUser(metaclass=ABCMeta):
             if self.user_data.habits[i]['habit_name'] == habit:
                 self.user_data.habits.pop(i)
 
-    def get_habits(self):
-        return self.user_data.user_current_habit_names
-
     @abstractmethod
     def can_start(self) -> bool:
         raise NotImplementedError
 
     @abstractmethod
     def get_available_habits(self) -> List[str]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_user_habits(self) -> List[str]:
         raise NotImplementedError
 
     @property
@@ -59,6 +60,9 @@ class NewBotUser(BaseBotUser):
     def get_available_habits(self) -> List[str]:
         return APP_HABITS
 
+    def get_user_habits(self):
+        return None
+
 
 class KnownBotUser(BaseBotUser):
     def __init__(self, user_id, habits):
@@ -71,12 +75,7 @@ class KnownBotUser(BaseBotUser):
         available_habits: set = set(APP_HABITS).difference(self.user_data.user_current_habit_names)
         return list(available_habits)
 
-    def delete_habit(self, habit: str):
-        for i in range(len(self.user_data.habits)):
-            if self.user_data.habits[i]['habit_name'] == habit:
-                self.user_data.habits.pop(i)
-
-    def get_habits(self):
+    def get_user_habits(self):
         return self.user_data.user_current_habit_names
 
     def update_habits_states(self):

@@ -7,7 +7,7 @@ from app.motivator.motivator_bot.handlers_logic.presenters import (
 )
 from app.motivator.motivator_bot.handlers_logic.update_data_handlers import (
     StartUpdateDataHandler, ShowHabitsUpdateHandler, ChoiceConfirmUpdateHandler,
-    ShowUserHabitsUpdateHandler, ChoiceDeleteUpdateHandler
+    DeleteUpdateDataHandler, ShowUserHabitsUpdateHandler, ChoiceDeleteUpdateHandler
 )
 
 
@@ -50,6 +50,8 @@ def delete(update: Update, context: CallbackContext) -> int:
     Asks whether user is ready to delete habits, if user
     has deleting ability.
     """
+    DeleteUpdateDataHandler(update, context).handle_data()
+
     delete_presenter = DeletePresenter(update, context)
     delete_presenter.present_response()
     return delete_presenter.next_state

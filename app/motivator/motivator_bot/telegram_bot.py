@@ -4,7 +4,7 @@ from telegram import Bot
 from telegram.ext import Updater, ConversationHandler
 
 from app.settings import AppSettings
-from app.motivator.motivator_bot.handlers import conversation_handler_kwargs, conversation_handler_delete_kwargs
+from app.motivator.motivator_bot.handlers import conversation_handler_kwargs, conversation_handler_kwargs2
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -21,7 +21,7 @@ class MotivatorBot:
     def setup(self):
         register_conv_handler = ConversationHandler(**conversation_handler_kwargs)
         self.dispatcher.add_handler(register_conv_handler)
-        register_conv_delete_handler = ConversationHandler(**conversation_handler_delete_kwargs)
+        register_conv_delete_handler = ConversationHandler(**conversation_handler_kwargs2)
         self.dispatcher.add_handler(register_conv_delete_handler)
 
     def run(self):
