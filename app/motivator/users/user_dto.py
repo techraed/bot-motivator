@@ -21,4 +21,4 @@ class UserDTO:
 
     @property
     def user_current_habit_names(self):
-        return [habit_name for habit in self.habits for habit_name in habit.keys()]
+        return [habit['habit_name'] for habit in self.habits]
