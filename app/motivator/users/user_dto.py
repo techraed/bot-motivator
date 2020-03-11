@@ -21,5 +21,5 @@ class UserDTO:
 
     # TODO db schema
     @property
-    def user_current_habit_names(self):
+    def user_current_habit_names(self) -> List[str]:
         return [habit['habit_name'] for habit in self.habits]

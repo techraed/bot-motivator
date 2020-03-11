@@ -65,7 +65,7 @@ class StartPresenter(TelegramPresenter):
         return ConversationHandler.END
 
 
-class ShowHabitsPresenter(TelegramPresenter):
+class ShowAvailableHabitsPresenter(TelegramPresenter):
     def __init__(self, update: Update, context: CallbackContext):
         super().__init__(update, context)
         self._user_start_response: str = self._context.user_data['user_start_response']
@@ -82,7 +82,7 @@ class ShowHabitsPresenter(TelegramPresenter):
         if self._is_not_affirmative_choice():
             return ReplyKeyboardRemove()
 
-        available_habits: List[List[str]] = [self._bot_user.get_available_habits()]
+        available_habits: List[List[str]] = [self._bot_user.get_habits_to_register()]
         return ReplyKeyboardMarkup(available_habits, one_time_keyboard=True)
 
     def _is_not_affirmative_choice(self):
@@ -120,27 +120,24 @@ class DeletePresenter(TelegramPresenter):
 
     @property
     def text(self) -> str:
-        if self.has_active_habits():
+        if self._bot_user.can_delete():
             return constants.DELETE_GREETING
         return constants.CANT_DELETE
 
     @property
     def reply_keyboard(self) -> Union[ReplyKeyboardRemove, ReplyKeyboardMarkup]:
-        if self.has_active_habits():
+        if self._bot_user.can_delete():
             return ReplyKeyboardMarkup(self._user_answer_choices, one_time_keyboard=True)
         return ReplyKeyboardRemove()
 
-    def has_active_habits(self):
-        return self._bot_user.user_data.habits_amount > 0
-
     @property
     def next_state(self):
-        if self.has_active_habits():
+        if self._bot_user.can_delete():
             return constants.REACT_DELETE_CHOICE
         return ConversationHandler.END
 
 
-class ShowUserHabitsPresenter(TelegramPresenter):
+class ShowUserCurrentHabitsPresenter(TelegramPresenter):
     def __init__(self, update: Update, context: CallbackContext):
         super().__init__(update, context)
         self._user_delete_response: str = self._context.user_data['user_delete_response']
@@ -156,7 +153,7 @@ class ShowUserHabitsPresenter(TelegramPresenter):
     def reply_keyboard(self) -> Union[ReplyKeyboardRemove, ReplyKeyboardMarkup]:
         if self._is_not_affirmative_choice():
             return ReplyKeyboardRemove()
-        user_habits: List[List[str]] = [self._bot_user.get_user_habits()]
+        user_habits: List[List[str]] = [self._bot_user.get_habits_to_delete()]
         return ReplyKeyboardMarkup(user_habits, one_time_keyboard=True)
 
     def _is_not_affirmative_choice(self):
