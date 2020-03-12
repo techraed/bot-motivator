@@ -20,6 +20,8 @@ class ChoiceDeleteHandlerTest(unittest.TestCase):
         chosen_habit: str = "Перестать есть мучное"
         bot_user.add_habit(chosen_habit)
         TestUserDataManager().update_users_data(bot_user.user_data_for_save)
+        user_data_new: dict = TestUserDataManager().get_user_data(self.user_id)
+        bot_user: Union[NewBotUser, KnownBotUser] = UserBuilder(self.user_id, user_data_new).build_user()
         bot_user.delete_habit(chosen_habit)
         TestUserDataManager().update_users_data(bot_user.user_data_for_save)
         user_data_new: dict = TestUserDataManager().get_user_data(self.user_id)
