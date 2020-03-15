@@ -1,10 +1,12 @@
 import logging
 
 from telegram import Bot
-from telegram.ext import  Updater, ConversationHandler
+from telegram.ext import Updater, ConversationHandler
 
 from app.settings import AppSettings
-from app.motivator.motivator_bot.handlers import conversation_handler_kwargs
+from app.motivator.motivator_bot.handlers import (
+    register_habits_conv_handler_kwargs, delete_habits_conv_handler_kwargs
+)
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -19,8 +21,11 @@ class MotivatorBot:
         self.dispatcher = self.updater.dispatcher
 
     def setup(self):
-        register_conv_handler = ConversationHandler(**conversation_handler_kwargs)
-        self.dispatcher.add_handler(register_conv_handler)
+        register_habits_conv_handler = ConversationHandler(**register_habits_conv_handler_kwargs)
+        delete_habits_conv_handler = ConversationHandler(**delete_habits_conv_handler_kwargs)
+
+        self.dispatcher.add_handler(register_habits_conv_handler)
+        self.dispatcher.add_handler(delete_habits_conv_handler)
 
     def run(self):
         self.updater.start_polling()
