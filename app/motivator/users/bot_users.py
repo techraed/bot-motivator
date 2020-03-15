@@ -33,6 +33,10 @@ class BaseBotUser(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
+    def can_delete(self) -> bool:
+        raise NotImplementedError
+
+    @abstractmethod
     def get_habits_to_register(self) -> List[str]:
         raise NotImplementedError
 
@@ -47,6 +51,9 @@ class NewBotUser(BaseBotUser):
 
     def can_start(self) -> bool:
         return True
+
+    def can_delete(self) -> bool:
+        return False
 
     def get_habits_to_register(self) -> List[str]:
         return APP_HABITS
