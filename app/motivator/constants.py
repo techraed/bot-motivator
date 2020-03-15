@@ -30,3 +30,18 @@ HABITS_CHOICE_ANSWERS = APP_HABITS
 CONFIRM_CHOICE = "Принял. Удачи в этом деле!"
 
 SAY_GOODBYE = "Рад был, что зашел :)"
+
+REACT_DELETE_CHOICE, REACT_SHOW_CHOICE = range(2)
+
+READY_TO_DELETE_ANSWERS = [YES, NO]
+
+CANT_DELETE = "У вас пока нет привычек :("
+
+DELETE_GREETING = "Привычки делают тебя сильнее, ты действительно хочешь удалить одну из них?"
+
+DONT_DELETE = "Молодец, не сварачивай с выбранного пути!"
+
+CHOOSE_HABITS_TO_DELETE = "Ну хорошо, давай посмотрим какие у тебя есть привычки."
+
+CONFIRM_DELETE_CHOICE = "Принял, сейчас удалю!"
+
