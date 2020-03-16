@@ -2,6 +2,7 @@ from telegram.ext import Filters, CommandHandler, MessageHandler, Handler
 
 from app.motivator.motivator_bot.handlers_logic.callbacks import (
     start, react_start_choice, react_habit_choice, cancel, delete, react_delete_choice, react_confirm_choice,
+    information
 )
 from app.motivator.constants import (
     REACT_START_CHOICE, REACT_HABIT_CHOICE, READY_TO_START_ANSWERS, HABITS_CHOICE_ANSWERS, READY_TO_DELETE_ANSWERS,
@@ -51,3 +52,5 @@ delete_habits_conv_handler_kwargs = {
     },
     'fallbacks': [fallback_cancel]
 }
+
+information_handler: Handler = CommandHandler('info', information)
