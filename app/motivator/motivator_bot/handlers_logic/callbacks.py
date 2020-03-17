@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 
 from app.motivator.motivator_bot.handlers_logic.presenters import (
     StartPresenter, ShowAvailableHabitsPresenter, ChoiceConfirmPresenter, CancellationPresenter, DeletePresenter,
-    ShowUserCurrentHabitsPresenter, DeleteConfirmPresenter
+    ShowUserCurrentHabitsPresenter, DeleteConfirmPresenter, HelpPresenter
 )
 from app.motivator.motivator_bot.handlers_logic.update_data_handlers import (
     BeginConversationUpdateDataHandler, ShowAvailableHabitsUpdateHandler, ChoiceConfirmUpdateHandler,
@@ -83,3 +83,12 @@ def cancel(update: Update, context: CallbackContext) -> int:
     cancellation_presenter = CancellationPresenter(update)
     cancellation_presenter.present_response()
     return cancellation_presenter.next_state
+
+
+def help(update: Update, context: CallbackContext) -> int:
+    """
+    Provides general information about the bot and commands.
+    """
+    information_presenter = HelpPresenter(update, context)
+    information_presenter.present_response()
+    return information_presenter.next_state
