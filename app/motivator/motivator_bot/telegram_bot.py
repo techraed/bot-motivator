@@ -5,7 +5,7 @@ from telegram.ext import Updater, ConversationHandler
 
 from app.settings import AppSettings
 from app.motivator.motivator_bot.handlers import (
-    register_habits_conv_handler_kwargs, delete_habits_conv_handler_kwargs, information_handler
+    register_habits_conv_handler_kwargs, delete_habits_conv_handler_kwargs, help_handler
 )
 
 
@@ -24,7 +24,7 @@ class MotivatorBot:
         register_habits_conv_handler = ConversationHandler(**register_habits_conv_handler_kwargs)
         delete_habits_conv_handler = ConversationHandler(**delete_habits_conv_handler_kwargs)
 
-        self.dispatcher.add_handler(information_handler)
+        self.dispatcher.add_handler(help_handler)
         self.dispatcher.add_handler(register_habits_conv_handler)
         self.dispatcher.add_handler(delete_habits_conv_handler)
 

@@ -183,13 +183,13 @@ class DeleteConfirmPresenter(TelegramPresenter):
         return ConversationHandler.END
 
 
-class InformationPresenter(TelegramPresenter):
+class HelpPresenter(TelegramPresenter):
     def __init__(self, update: Update, context: CallbackContext):
         super().__init__(update, context)
 
     @property
     def text(self) -> str:
-        return constants.INFORMATION
+        return constants.HELP
 
     @property
     def reply_keyboard(self) -> Union[ReplyKeyboardRemove, ReplyKeyboardMarkup]:
