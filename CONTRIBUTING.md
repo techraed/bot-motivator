@@ -1,6 +1,7 @@
 # Issues and Pull Requests
 We don't have any strict rules concerning opening issues or pull requests. Just
 suggest your ideas, edits or inform about issues, bugs within GitHub instruments.
+Code cleaning and minor refactoring is always welcomed.
 
 # Work flow
 Contribute to project by pull requesting changes made in checkouted from develop branches.
